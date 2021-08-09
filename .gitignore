@@ -100,3 +100,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+/.dir-locals.el
+/wriggle/stan_models/fitter
+/wriggle/stan_models/*.hpp
