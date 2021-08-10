@@ -52,7 +52,7 @@ transformed data {
 
   vector[N_echan] ene_center[2];
   vector[N_echan] ene_width[2];
-
+  int all_N[N_dets];
 
   // the photon side energies only need to
   // be stored once per detector type (bgo, nai)
@@ -61,7 +61,10 @@ transformed data {
 
     ene_center[det_type[n]] = 0.5 * (ebounds_lo[n] + ebounds_hi[n]);
 
-    ene_width[det_type[n]] = (ebounds_hi[n] + ebounds_lo[n]);
+    ene_width[det_type[n]] = (ebounds_hi[n] - ebounds_lo[n]);
+
+    all_N[n] = n;
+
 
   }
 
@@ -121,21 +124,17 @@ transformed parameters {
   real scale = raw_scale * inv_sqrt(k);
   real range;
   real bw;
-  row_vector[k] omega; 
+  row_vector[k] omega;
   vector[N_echan] spectrum[2];
-
-
 
   range = range_raw * max_range;
 
-
   bw = inv(range);
-
 
   // non-center
   omega = omega_var * bw;
 
-  for (n in 1:2){
+  for (n in 1:2) {
 
     spectrum[n] = compute_model_spectrum(ene_center[n], omega, beta1, beta2, scale, k, N_echan);
 
@@ -155,28 +154,53 @@ model {
   beta1 ~ std_normal();
   beta2 ~ std_normal();
   raw_scale ~ normal(1,1);
-  range_raw ~ lognormal(0, .2);
+  range_raw ~ uniform(0,1);
 
   omega_var ~ std_normal();
 
   log_amplitude ~ normal(0,100);
 
-  for (n in 1:N_dets){
 
-    target += partial_log_like(observed_counts[n],
-                               background_counts[n],
-                               background_errors[n],
-                               10^log_amplitude *  spectrum[det_type[n]],
-                               idx_background_zero[n][:N_bkg_zero[n]],
-                               idx_background_nonzero[n][:N_bkg_nonzero[n]],
-                               mask[n][:N_channels_used[n]],
-                               response[n],
-                               ene_width[det_type[n]],
-                               exposure[n],
-                               N_echan,
-                               N_chan);
 
-  }
+  target += reduce_sum(partial_log_like,
+                       all_N,
+                       grainsize,
+                       observed_counts,
+                       background_counts,
+                       background_errors,
+                       spectrum,
+                       idx_background_zero,
+                       idx_background_nonzero,
+                       mask,
+                       response,
+                       ene_width,
+                       exposure,
+                       N_echan,
+                       N_chan,
+                       det_type,
+                       N_channels_used,
+                       N_bkg_nonzero,
+                       N_bkg_zero,
+                       log_amplitude
+
+
+                       );
+
+
+
+
+
+}
+generated quantities {
+  // vector[N_chan] counts[N_dets];
+
+  // for (n in 1:N_dets){
+
+  //   counts[n] = fold_counts(spectrum[det_type[n]], ene_width[det_type[n]], response[n], exposure[n]);
+
+
+  // }
+
 
 
 
