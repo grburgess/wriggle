@@ -37,7 +37,7 @@ real partial_log_like(int [] n_slice, int start, int end,
     loglike += sum(pgstat(observed_counts[m][mask[m][:N_channels_used[m]]],
                           background_counts[m][mask[m][:N_channels_used[m]]],
                           background_errors[m][mask[m][:N_channels_used[m]]],
-                          fold_counts(10^loglike * source_spectrum[det_type[m]], ene_width[det_type[m]], rsp[m], exposure[m])[mask[m][:N_channels_used[m]]],
+                          fold_counts(10^log_amplitude * source_spectrum[det_type[m]], ene_width[det_type[m]], rsp[m], exposure[m])[mask[m][:N_channels_used[m]]],
                           idx_background_zero[m][:N_bkg_zero[m]],
                           idx_background_nonzero[m][:N_bkg_nonzero[m]]));
 

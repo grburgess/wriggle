@@ -158,7 +158,7 @@ model {
 
   omega_var ~ std_normal();
 
-  log_amplitude ~ normal(0,100);
+  log_amplitude ~ normal(-10,2);
 
 
 
