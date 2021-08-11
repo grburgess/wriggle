@@ -8,35 +8,35 @@ data {
 
 
   int N_dets;
-  int det_type [N_dets];
+  array[N_dets] int det_type ;
   int N_echan;
   int N_chan;
 
 
 
-  vector[N_echan] ebounds_hi[N_dets];
-  vector[N_echan] ebounds_lo[N_dets];
+  array[N_dets] vector[N_echan] ebounds_hi;
+  array[N_dets] vector[N_echan] ebounds_lo;
 
 
 
-  vector[N_chan] observed_counts[N_dets];
-  vector[N_chan] background_counts[N_dets];
-  vector[N_chan] background_errors[N_dets];
+  array[N_dets] vector[N_chan] observed_counts;
+  array[N_dets] vector[N_chan] background_counts;
+  array[N_dets] vector[N_chan] background_errors;
 
-  int idx_background_zero[N_dets, N_chan];
-  int idx_background_nonzero[N_dets, N_chan];
+  array[N_dets, N_chan] int idx_background_zero;
+  array[N_dets, N_chan] int idx_background_nonzero;
 
-  int N_bkg_zero[N_dets];
-  int N_bkg_nonzero[N_dets];
+  array[N_dets] int N_bkg_zero;
+  array[N_dets] int N_bkg_nonzero;
 
-  real exposure[N_dets];
+  array[N_dets] real exposure;
 
-  matrix[N_chan, N_echan] response[N_dets];
+  array[N_dets] matrix[N_chan, N_echan] response;
 
 
 
-  int mask[N_dets, N_chan];
-  int N_channels_used[N_dets];
+  array[N_dets, N_chan] int mask;
+  array[N_dets] int N_channels_used;
 
   real max_range;
 
@@ -50,9 +50,9 @@ transformed data {
 
   int N_total_channels = 0;
 
-  vector[N_echan] ene_center[2];
-  vector[N_echan] ene_width[2];
-  int all_N[N_dets];
+  array[2] vector[N_echan] ene_center;
+  array[2] vector[N_echan] ene_width;
+  array[N_dets] int all_N;
 
   // the photon side energies only need to
   // be stored once per detector type (bgo, nai)
@@ -125,7 +125,7 @@ transformed parameters {
   real range;
   real bw;
   row_vector[k] omega;
-  vector[N_echan] spectrum[2];
+  array[2] vector[N_echan] spectrum;
 
   range = range_raw * max_range;
 
