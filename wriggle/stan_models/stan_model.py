@@ -5,6 +5,7 @@ import pkg_resources
 
 _available_models = [
     "fitter.stan",
+    "fitter_ns.stan"
 
 ]
 
