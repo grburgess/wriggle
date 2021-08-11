@@ -158,8 +158,7 @@ model {
 
   omega_var ~ std_normal();
 
-  log_amplitude ~ normal(-10,2);
-
+  log_amplitude ~ normal(0,5);
 
 
   target += reduce_sum(partial_log_like,
