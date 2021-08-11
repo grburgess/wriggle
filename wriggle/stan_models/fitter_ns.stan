@@ -110,7 +110,7 @@ parameters {
 
   real log_amplitude; // independent amplitude1 of LC 1; probably do not need right now...
 
-  array[2] positive_ordered raw_scale;
+  positive_ordered[2] raw_scale;
 
   real<lower=0, upper=1> range1_raw;
   real<lower=0, upper=range1_raw> range2_raw;
