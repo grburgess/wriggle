@@ -103,3 +103,5 @@ ENV/
 /.dir-locals.el
 /wriggle/stan_models/fitter
 /wriggle/stan_models/*.hpp
+/.editorconfig
+/wriggle/20210809-094325_screenshot.png
