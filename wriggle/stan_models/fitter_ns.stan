@@ -163,7 +163,8 @@ model {
   range1_raw ~ uniform(0,1);
   range2_raw ~ uniform(0,1);
 
-  omega_var ~ std_normal();
+  omega_var[1] ~ std_normal();
+  omega_var[2] ~ std_normal();
 
   log_amplitude ~ normal(0,5);
 
