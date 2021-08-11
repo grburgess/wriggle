@@ -52,7 +52,7 @@ real partial_log_like(int [] n_slice, int start, int end,
 
 }
 
-vector compute_model_spectrum(vector ene_center,
+vector compute_model_spectrum( vector ene_center,
                               row_vector omega,
                               vector beta1,
                               vector beta2,
@@ -61,10 +61,29 @@ vector compute_model_spectrum(vector ene_center,
                               int N_echan){
 
   matrix [N_echan, k] tw = ene_center * omega;
-  //matrix [N,k] tw2 = ene_center * omega2;
-
-
+  
   vector[N_echan] expected_counts_log = ((scale* cos(tw)) * beta1) + ((scale * sin(tw)) * beta2);
+
+  return exp(expected_counts_log);
+
+}
+
+
+
+vector compute_model_spectrum_ns(vector ene_center,
+				 row_vector omega1,
+				 row_vector omega2,
+				 vector beta1,
+				 vector beta2,
+				 real scale1,
+				 real scale2,
+				 int k,
+				 int N_echan){
+
+  matrix [N_echan, k] tw1 = ene_center * omega1;
+  matrix [N_echan, k] tw2 = ene_center * omega2;
+  
+  vector[N_echan] expected_counts_log = ((scale1 * cos(tw1) + (scale2 * cos(tw2))) * beta1) + ((scale1 * sin(tw1) + scale2 * sin(tw2)) * beta2);
 
   return exp(expected_counts_log);
 
