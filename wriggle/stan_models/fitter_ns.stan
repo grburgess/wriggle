@@ -160,7 +160,8 @@ model {
   beta1 ~ std_normal();
   beta2 ~ std_normal();
   raw_scale ~ normal(1,1);
-  range_raw ~ uniform(0,1);
+  range1_raw ~ uniform(0,1);
+  range2_raw ~ uniform(0,1);
 
   omega_var ~ std_normal();
 
