@@ -123,7 +123,7 @@ parameters {
 
 transformed parameters {
 
-  real scale = raw_scale * inv_sqrt(k);
+  array[2] real scale = raw_scale * inv_sqrt(k);
   array[2] real range;
   array[2] real bw;
   array[2] row_vector[k] omega;
