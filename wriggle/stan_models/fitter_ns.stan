@@ -123,7 +123,7 @@ parameters {
 
 transformed parameters {
 
-  array[2] real scale = raw_scale * inv_sqrt(k);
+  vector[2] scale = raw_scale * inv_sqrt(k);
   array[2] real range;
   array[2] real bw;
   array[2] row_vector[k] omega;
@@ -142,7 +142,7 @@ transformed parameters {
   
   for (n in 1:2) {
 
-    spectrum[n] = compute_model_spectrum_ns(ene_center[n], omega[1], omega[2], beta1, beta2, scale1, scale2, k, N_echan);
+    spectrum[n] = compute_model_spectrum_ns(ene_center[n], omega[1], omega[2], beta1, beta2, scale[1], scale[2], k, N_echan);
 
   }
 
